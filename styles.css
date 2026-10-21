@@ -1025,6 +1025,61 @@ body {
     outline: 2px solid var(--ink)
 }
 
+/* ── Shimmer Text Effect ───────────────────────────────────── */
+:root {
+  --shimmer-duration: 12s;
+  --shimmer-size: 400%;
+  --shimmer-highlight-opacity: 0.6;
+  --shimmer-gradient-width: 10%;
+  --shimmer-font-weight: 700;
+  --shimmer-base-color: var(--ink);
+  --shimmer-highlight-color: 255, 255, 255;
+}
+
+:root[data-theme="light"] {
+  --shimmer-highlight-opacity: 1;
+  --shimmer-gradient-width: 15%;
+  --shimmer-duration: 20s;
+}
+
+.shimmer-footer {
+  margin-top: 12px;
+}
+
+.shimmer-text {
+    font-weight: var(--shimmer-font-weight);
+    background: linear-gradient(
+        90deg,
+        var(--shimmer-base-color) 0%,
+        var(--shimmer-base-color) calc(50% - var(--shimmer-gradient-width)),
+        rgba(var(--shimmer-highlight-color), var(--shimmer-highlight-opacity)) 50%,
+        var(--shimmer-base-color) calc(50% + var(--shimmer-gradient-width)),
+        var(--shimmer-base-color) 100%
+    );
+    background-size: var(--shimmer-size) 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shimmer var(--shimmer-duration) linear infinite;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: var(--shimmer-size) 0;
+    }
+    100% {
+        background-position: calc(var(--shimmer-size) * -1) 0;
+    }
+}
+
+@media(prefers-reduced-motion: reduce) {
+    .shimmer-text {
+        animation: none;
+        -webkit-text-fill-color: var(--shimmer-base-color);
+        background: none;
+    }
+}
+
 .it i {
     width: 10px;
     height: 10px;

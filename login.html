@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>SPPU Pathshala — Login</title>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@500&display=swap">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Specific layout refinement for standalone login view */
+    .login-wrapper {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .login-container {
+      max-width: 960px;
+      margin: 0 auto;
+      width: 100%;
+      flex: 1;
+      padding-bottom: 50px;
+    }
+
+    .profile-hud {
+      display: grid;
+      gap: 16px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="login-wrapper">
+    <main class="main login-container">
+      <!-- Top navigation bar matching main page -->
+      <div class="top">
+        <a class="brand" href="index.html" style="text-decoration:none">
+          <svg class="lg" viewBox="0 0 40 40" width="38" height="38" aria-hidden="true">
+            <rect x="2" y="2" width="36" height="36" rx="10" style="fill:var(--paper);stroke:var(--ink)"
+              stroke-width="2" />
+            <path d="M13 2v36" style="stroke:var(--mar)" stroke-width="1.5" opacity=".7" />
+            <rect x="15" y="18.5" width="19" height="8" rx="2" transform="rotate(-4 24 22)" style="fill:var(--notes)" />
+            <path d="M31 15c-2-2.7-9-2.7-10 1.5-.8 3.5 3 4.1 5 4.9 3 1.2 4.6 2.6 3.6 5.8-1.2 3.2-8.1 3.2-10.6-.2"
+              fill="none" style="stroke:var(--ink)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          <span><b>SPPU</b><small>Pathshala</small></span>
+        </a>
+        <div class="row" style="margin-left:auto;gap:8px">
+          <a class="top-btn" href="index.html">
+            <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8"
+              aria-hidden="true">
+              <path d="M10 13L5 8l5-5" />
+            </svg>
+            Back to Hub
+          </a>
+          <button class="top-btn" data-a="th">Light or dark</button>
+        </div>
+      </div>
+
+      <!-- Header with animated pen underline -->
+      <div class="view sw" style="--c:var(--jobs);margin-top:8px">
+        <header class="ph">
+          <h1 class="d">
+            <span class="hl">Student authentication
+              <svg class="pen" viewBox="0 0 32 32" aria-hidden="true">
+                <path d="M13 22h6l-1.6 8h-2.8z" style="fill:var(--c);stroke:var(--ink)" stroke-width="1.4"
+                  stroke-linejoin="round" />
+                <rect x="11" y="6" width="10" height="17" rx="2" style="fill:var(--paper);stroke:var(--ink)"
+                  stroke-width="1.4" />
+                <rect x="11" y="6" width="10" height="5.5" rx="2" style="fill:var(--c);stroke:var(--ink)"
+                  stroke-width="1.4" />
+                <path d="M14.5 15h3M14.5 18h3" style="stroke:var(--line)" stroke-width="1.2" stroke-linecap="round" />
+              </svg>
+            </span>
+          </h1>
+          <p class="lead">Sign in once with your university PRN or college email. Your saved notes, active job
+            applications, exam countdown, and PYQ bookmarks stay in sync across the entire hub.</p>
+        </header>
+
+        <!-- Two Column Layout matching main page -->
+        <div class="two">
+          <!-- Left Column: Authentication Form -->
+          <div class="card" style="--c:var(--jobs)">
+            <div class="row sp">
+              <span class="tag">SPPU Auth</span>
+              <span class="mono sm" style="font-size:11.5px">256-bit UoP Encrypted</span>
+            </div>
+
+            <h3 style="margin-top:12px;font-size:18px">University Student Login</h3>
+            <p class="sm" style="margin-bottom:14px">Choose a fast-fill demo profile or enter your university
+              credentials.</p>
+
+            <!-- Fast-fill Profile Switchers -->
+            <div class="sm" style="font-weight:500;margin-bottom:8px">Fast-fill demo profiles:</div>
+            <div class="row" style="margin-bottom:18px;gap:6px">
+              <button type="button" class="chip on" id="btn-Anjali" onclick="pickProfile('')">TE Comp (Anjali)</button>
+              <button type="button" class="chip" id="btn-Sarah" onclick="pickProfile('Sarah')">BE Mech (Sarah)</button>
+              <button type="button" class="chip" id="btn-ananya" onclick="pickProfile('ananya')">Auditor
+                (Ananya)</button>
+            </div>
+
+            <!-- Login Form -->
+            <form id="loginForm" onsubmit="handleLogin(event)" style="display:grid;gap:13px">
+              <div>
+                <label for="prnInput" class="sm" style="display:block;margin-bottom:4px;font-weight:500">Permanent
+                  Registration Number (PRN) / Email</label>
+                <input type="text" id="prnInput" value="72198042K" required style="width:100%"
+                  placeholder="e.g. 72198042K or student@pict.edu">
+              </div>
+
+              <div>
+                <div class="row sp" style="margin-bottom:4px">
+                  <label for="passInput" class="sm" style="font-weight:500">Portal Password / Access Key</label>
+                  <a href="#" class="sm" style="color:var(--mute)"
+                    onclick="event.preventDefault();alert('Demo password is pre-filled. You can also sign in with any sample text.')">Forgot
+                    PRN / Password?</a>
+                </div>
+                <div style="position:relative">
+                  <input type="password" id="passInput" value="sppu2026pass" required
+                    style="width:100%;padding-right:70px">
+                  <button type="button" class="btn s alt" onclick="togglePass()"
+                    style="position:absolute;right:6px;top:5px;padding:3px 9px;font-size:11px"
+                    id="passToggleBtn">Show</button>
+                </div>
+              </div>
+
+              <label class="row" style="cursor:pointer;margin:4px 0">
+                <input type="checkbox" id="rememberMe" checked>
+                <span class="sm">Remember this terminal session</span>
+              </label>
+
+              <button type="submit" class="btn" style="width:100%;padding:10px;margin-top:4px"
+                id="submitBtn">Authenticate &amp; Enter Hub</button>
+
+              <div class="sm" style="text-align:center;color:var(--mute);margin-top:6px;font-size:12px">
+                Cluster: SPPU-Ganeshkhind-Cluster-04 • Session TTL: 120m
+              </div>
+            </form>
+          </div>
+
+          <!-- Right Column: Profile Recon & Forecast -->
+          <div class="profile-hud">
+            <!-- Active Target Ticket -->
+            <div class="ticket" id="profileTicket" style="transform:none;--planner:var(--planner)">
+              <div class="row sp">
+                <div class="d" style="font-size:17px">Verified Student Profile</div>
+                <span class="tag" style="background:var(--ink);color:var(--paper);font-size:11px">Active Session</span>
+              </div>
+              <h2 class="d" id="previewName" style="font-size:28px;margin:8px 0 2px">Anjali Deshmukh</h2>
+              <div class="sm" id="previewBranch" style="color:inherit;opacity:.95;font-weight:500">Computer Engineering
+                (TE Sem 5)</div>
+              <div class="mono" id="previewCollege" style="font-size:12px;margin-top:3px;opacity:.85">PICT Pune • PRN:
+                72198042K</div>
+
+              <div class="cd" style="margin-top:14px;border-top:1px dashed rgba(21,33,59,.3);padding-top:10px">
+                <div><span id="previewCGPA">9.14</span><small>CGPA</small></div>
+                <div><span id="previewPYQ">428</span><small>Solved PYQs</small></div>
+                <div><span id="previewSync">84%</span><small>In-Sync</small></div>
+              </div>
+            </div>
+
+            <!-- Predicted Exam Targets Card -->
+            <div class="card" style="--c:var(--pyq)">
+              <h3>Predicted Exam Targets</h3>
+              <p class="sm" style="margin-bottom:12px">High probability topics for upcoming SPPU theory papers:</p>
+
+              <div style="display:grid;gap:8px">
+                <div class="row sp"
+                  style="background:var(--bg);padding:8px 10px;border-radius:6px;border:1px solid var(--line)">
+                  <div>
+                    <div style="font-size:13.5px;font-weight:500" id="t1Title">TCS Module 3: Turing Machines &amp;
+                      Decidability</div>
+                    <div class="sm">4 sems continuous recurrence</div>
+                  </div>
+                  <span class="tag" style="--c:var(--mar);color:#fff" id="t1Weight">98% CRITICAL</span>
+                </div>
+
+                <div class="row sp"
+                  style="background:var(--bg);padding:8px 10px;border-radius:6px;border:1px solid var(--line)">
+                  <div>
+                    <div style="font-size:13.5px;font-weight:500" id="t2Title">CN Protocols: TCP Congestion &amp;
+                      Go-Back-N</div>
+                    <div class="sm">Formula + 8-Mark Theory Vector</div>
+                  </div>
+                  <span class="tag" style="--c:var(--pyq)" id="t2Weight">92% HIGH</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Countdown card -->
+            <div class="card" style="--c:var(--planner)">
+              <div class="row sp">
+                <div>
+                  <h3 style="margin:0">SPPU End-Sem Theory</h3>
+                  <div class="sm">Commences 1 December, 9:00 am</div>
+                </div>
+                <span class="tag">Winter 2026</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer matching main page -->
+        <footer class="me" style="margin-top:50px">
+          <div>
+            <h2 class="d">Me, The Product</h2>
+            <p>Built by Sushil, a Third-year Computer Engineering student at SPPU who is tired of juggling ten apps and
+              chat groups. Full portfolio and projects live at sushilrk.vercel.app.</p>
+          </div>
+          <div>
+            <div class="row" style="margin-bottom:14px">
+              <span class="chip">UI and UX</span>
+              <span class="chip">Frontend</span>
+              <span class="chip">Computer Engineering</span>
+            </div>
+            <div class="row">
+              <a class="btn" href="https://sushilrk.vercel.app" target="_blank" rel="noopener">Download resume</a>
+              <a class="btn alt" style="color:#eef2ff;border-color:#3a4870" href="https://sushilrk.vercel.app"
+                target="_blank" rel="noopener">Open portfolio</a>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const root = document.documentElement;
+    try {
+      const t = localStorage.getItem('th');
+      if (t) root.dataset.theme = t;
+    } catch (e) { }
+
+    const profiles = {
+      Anjali: {
+        prn: "72198042K",
+        name: "Anjali Deshmukh",
+        branch: "Computer Engineering (TE Sem 5)",
+        college: "PICT Pune • PRN: 72198042K",
+        cgpa: "9.14",
+        pyq: "428",
+        sync: "84%",
+        t1: "TCS Module 3: Turing Machines & Decidability",
+        t1W: "98% CRITICAL",
+        t2: "CN Protocols: TCP Congestion & Go-Back-N",
+        t2W: "92% HIGH",
+        color: "var(--planner)"
+      },
+      Sarah: {
+        prn: "71923410B",
+        name: "Saraswati Kulkarni",
+        branch: "Mechanical Engineering (BE Sem 7)",
+        college: "COEP Technological University • PRN: 71923410B",
+        cgpa: "8.78",
+        pyq: "392",
+        sync: "76%",
+        t1: "FEA: 2D Truss Element Formulation",
+        t1W: "95% CRITICAL",
+        t2: "Robotics: DH Parameters & Inverse Kinematics",
+        t2W: "89% HIGH",
+        color: "var(--events)"
+      },
+      ananya: {
+        prn: "GUEST-9901X",
+        name: "Dr. Ananya Joshi",
+        branch: "Academic Auditor & Researcher",
+        college: "SPPU Campus • PRN: GUEST-9901X",
+        cgpa: "10.0",
+        pyq: "500",
+        sync: "100%",
+        t1: "SPPU 2026 Exam Pattern Calibration",
+        t1W: "100% AUDIT",
+        t2: "Credit System & Relative Grading Curves",
+        t2W: "99% RECON",
+        color: "var(--lost)"
+      }
+    };
+
+    let activeKey = 'Anjali';
+
+    function pickProfile(key) {
+      activeKey = key;
+      const p = profiles[key];
+      ['Anjali', 'Sarah', 'ananya'].forEach(k => {
+        const el = document.getElementById('btn-' + k);
+        if (el) el.classList.toggle('on', k === key);
+      });
+      document.getElementById('prnInput').value = p.prn;
+      document.getElementById('previewName').textContent = p.name;
+      document.getElementById('previewBranch').textContent = p.branch;
+      document.getElementById('previewCollege').textContent = p.college;
+      document.getElementById('previewCGPA').textContent = p.cgpa;
+      document.getElementById('previewPYQ').textContent = p.pyq;
+      document.getElementById('previewSync').textContent = p.sync;
+      document.getElementById('t1Title').textContent = p.t1;
+      document.getElementById('t1Weight').textContent = p.t1W;
+      document.getElementById('t2Title').textContent = p.t2;
+      document.getElementById('t2Weight').textContent = p.t2W;
+      const ticket = document.getElementById('profileTicket');
+      if (ticket) ticket.style.setProperty('--planner', p.color);
+    }
+
+    function togglePass() {
+      const inp = document.getElementById('passInput');
+      const btn = document.getElementById('passToggleBtn');
+      if (inp.type === 'password') {
+        inp.type = 'text';
+        btn.textContent = 'Hide';
+      } else {
+        inp.type = 'password';
+        btn.textContent = 'Show';
+      }
+    }
+
+    // Theme toggle button matching main page
+    document.querySelector('[data-a="th"]')?.addEventListener('click', () => {
+      const dk = root.dataset.theme ? root.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme:dark)').matches;
+      const n = dk ? 'light' : 'dark';
+      root.dataset.theme = n;
+      try { localStorage.setItem('th', n); } catch (e) { }
+    });
+
+    function handleLogin(e) {
+      e.preventDefault();
+      const btn = document.getElementById('submitBtn');
+      const p = profiles[activeKey] || profiles.Anjali;
+      const prn = document.getElementById('prnInput').value.trim() || p.prn;
+
+      btn.textContent = 'Authenticating with SPPU...';
+      btn.style.opacity = '0.75';
+      btn.disabled = true;
+
+      try {
+        localStorage.setItem('sppu_user', JSON.stringify({
+          prn: prn,
+          name: p.name,
+          branch: p.branch,
+          college: p.college
+        }));
+      } catch (err) { }
+
+      setTimeout(() => {
+        btn.textContent = '✓ Access Granted! Redirecting...';
+        btn.style.background = 'var(--lost)';
+        btn.style.color = 'var(--on)';
+        btn.style.borderColor = 'var(--ink)';
+        setTimeout(() => {
+          window.location.href = 'index.html';
+        }, 500);
+      }, 600);
+    }
+
+    // Check if user is already saved
+    try {
+      const saved = JSON.parse(localStorage.getItem('sppu_user'));
+      if (saved && saved.name) {
+        for (const [k, v] of Object.entries(profiles)) {
+          if (v.name === saved.name) {
+            pickProfile(k);
+            break;
+          }
+        }
+      }
+    } catch (e) { }
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>SPPU Pathshala</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@500&display=swap">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app">
+    <nav class="side" id="side"></nav>
+    <main class="main">
+      <div class="top">
+        <button class="tg" data-a="side" aria-label="Open sidebar">
+          <svg viewBox="0 0 20 20" aria-hidden="true">
+            <rect x="2.5" y="4" width="15" height="12" rx="3.2"/>
+            <path d="M7.5 4v12"/>
+          </svg>
+        </button>
+        <span class="d" id="bm"></span>
+        <a class="top-btn" href="login.html" id="u-chip" style="margin-left:auto">
+          <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+            <circle cx="10" cy="7" r="3.5"/>
+            <path d="M4 17c0-3.2 2.7-5.8 6-5.8s6 2.6 6 5.8"/>
+          </svg>
+          <span id="u-name">Demo Login</span>
+        </a>
+        <button class="top-btn" style="margin-left:8px" data-a="th">Light or dark</button>
+        <button class="top-btn" style="margin-left:8px" data-a="resetData" title="Reset all modules back to initial demo data">Reset Demo</button>
+      </div>
+      <div id="v"></div>
+    </main>
+  </div>
+  <nav class="bn" id="bn"></nav>
+  <div id="m"></div>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <filter id="lens2" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+        <feImage href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='38'%3E%3Cdefs%3E%3ClinearGradient id='h'%3E%3Cstop offset='0' stop-color='rgb(255,128,128)'/%3E%3Cstop offset='.1' stop-color='rgb(214,128,128)'/%3E%3Cstop offset='.9' stop-color='rgb(42,128,128)'/%3E%3Cstop offset='1' stop-color='rgb(0,128,128)'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='200' height='38' fill='url(%23h)'/%3E%3C/svg%3E" x="0" y="0" width="100%" height="100%" preserveAspectRatio="none" result="mx"/>
+        <feImage href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='38'%3E%3Cdefs%3E%3ClinearGradient id='v' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='rgb(128,255,128)'/%3E%3Cstop offset='.18' stop-color='rgb(128,150,128)'/%3E%3Cstop offset='.82' stop-color='rgb(128,106,128)'/%3E%3Cstop offset='1' stop-color='rgb(128,0,128)'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='200' height='38' fill='url(%23v)'/%3E%3C/svg%3E" x="0" y="0" width="100%" height="100%" preserveAspectRatio="none" result="my"/>
+        <feGaussianBlur in="SourceGraphic" stdDeviation=".4" result="s"/>
+        <feDisplacementMap in="s" in2="mx" scale="30" xChannelSelector="R" yChannelSelector="B" result="d1"/>
+        <feDisplacementMap in="d1" in2="my" scale="30" xChannelSelector="B" yChannelSelector="G"/>
+      </filter>
+      <filter id="lens" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+        <feImage href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='38'%3E%3Cdefs%3E%3ClinearGradient id='l'%3E%3Cstop offset='0' stop-color='rgb(232,128,128)'/%3E%3Cstop offset='1' stop-color='rgb(128,128,128)'/%3E%3C/linearGradient%3E%3ClinearGradient id='r'%3E%3Cstop offset='0' stop-color='rgb(128,128,128)'/%3E%3Cstop offset='1' stop-color='rgb(128,128,128)'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='200' height='38' fill='url(%23l)'/%3E%3C/svg%3E" x="0" y="0" width="100%" height="100%" preserveAspectRatio="none" result="mx"/>
+        <feImage href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='38'%3E%3Cdefs%3E%3ClinearGradient id='v' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='rgb(128,128,128)'/%3E%3Cstop offset='1' stop-color='rgb(128,128,128)'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='200' height='38' fill='url(%23v)'/%3E%3C/svg%3E" x="0" y="0" width="100%" height="100%" preserveAspectRatio="none" result="my"/>
+        <feGaussianBlur in="SourceGraphic" stdDeviation=".4" result="s"/>
+        <feDisplacementMap in="s" in2="mx" scale="30" xChannelSelector="R" yChannelSelector="B" result="d1"/>
+        <feDisplacementMap in="d1" in2="my" scale="30" xChannelSelector="B" yChannelSelector="G"/>
+      </filter>
+    </defs>
+  </svg>
+  <script src="script.js"></script>
+</body>
+</html>

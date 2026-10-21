@@ -585,7 +585,7 @@ const me = () => `<footer class="me">
       <span class="chip">Computer Engineering</span>
     </div>
     <div class="row">
-      <a class="btn" href="https://sushilrk.vercel.app" target="_blank" rel="noopener">Download resume</a>
+      <a class="btn" href="resume/SUSHIL_RK_Resume(DA) (1).pdf" download>Download resume</a>
       <a class="btn alt" style="color:#eef2ff;border-color:#3a4870" href="https://sushilrk.vercel.app" target="_blank" rel="noopener">Open portfolio</a>
     </div>
   </div>

@@ -406,7 +406,7 @@ const V = {
         ${ticket()}
       </section>
       <div class="tiles">
-        ${t('notes', 'Saved notes', S.bm.size, `of ${D.notes.length} in the hub`)}
+        ${t('notes', 'Saved notes', S.bm.size, `of ${D.notes.length} in the Pathshala`)}
         ${t('jobs', 'Applications in progress', active(), 'across your pipeline')}
         ${t('events', 'Next event', new Date(nx.d).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }), nx.t)}
         ${t('lost', 'Open reports', D.lf.length, 'lost and found')}
@@ -573,7 +573,7 @@ const V = {
 const me = () => `<footer class="me">
   <div>
     <h2 class="d">Me, The Product</h2>
-    <p>Built by Sushil, a Third-year Computer Engineering student at SPPU who is tired of juggling ten apps and chat groups. Full portfolio and projects live at sushilrk.vercel.app.</p>
+    <p>I'm a 3rd-year Computer Science undergraduate with a strong focus on Full Stack Development and Artificial Intelligence/Machine Learning. I enjoy building scalable web applications and exploring how intelligent systems can enhance user experiences and solve real-world problems.</p>
     <div class="shimmer-footer">
       <span class="shimmer-text">Made with 🤍 by Sush!l RK</span>
     </div>
@@ -756,7 +756,7 @@ const A = {
     render();
   },
   delN: d => {
-    if (confirm('Delete this note from the hub?')) {
+    if (confirm('Delete this note from the Pathshala?')) {
       D.notes = D.notes.filter(n => n.id != d.id);
       S.bm.delete(+d.id);
       saveBookmarks();
@@ -1094,7 +1094,7 @@ const A = {
   },
   snd: () => M(`
     <h2 class="d">Message Sent</h2>
-    <p class="sm">The finder/owner will reply directly to your hub messages.</p>
+    <p class="sm">The finder/owner will reply directly to your Pathshala messages.</p>
     <button class="btn" data-a="x">Done</button>
   `),
   x: X,

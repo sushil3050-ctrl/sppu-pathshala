@@ -48,11 +48,6 @@ The vision is simple: **less time searching, more time learning.**
 
 <div align="center">
 
-### Home Page
-<img src="screenshots/home.png" alt="Home Page" width="800"/>
-
-<br/>
-
 ### Notes Section
 <img src="screenshots/notes.png" alt="Notes Section" width="800"/>
 

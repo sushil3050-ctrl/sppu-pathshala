@@ -1511,7 +1511,7 @@ const go2 = j => {
   place(j);
   const k = NAV[j][0];
   clearTimeout(S.kt);
-  if (k != S.v) S.kt = setTimeout(() => { closeDD(); turn(k); }, 420);
+  if (k != S.v) S.kt = setTimeout(() => { closeDD(); turn(k); }, 320);
 };
 
 A.more = () => {
@@ -1523,25 +1523,25 @@ A.pick = d => go2(idx(d.v));
 function turn(k) {
   if (k == S.v || S.busy) return;
   if (matchMedia('(prefers-reduced-motion:reduce)').matches) return A.go({ v: k });
-  const m = $('.main'), w = $('#v'), o = { duration: 900, easing: 'cubic-bezier(.5,.05,.3,1)', fill: 'forwards' };
-  S.busy = 1; scrollTo(0, 0); S.q = ''; X();
+  const m = $('.main'), w = $('#v'), o = { duration: 720, easing: 'cubic-bezier(.4,.0,.2,1)', fill: 'forwards' };
+  S.busy = 1; window.scrollTo({ top: 0, behavior: 'auto' }); S.q = ''; X();
   const f = document.createElement('div');
   f.className = 'flip';
   f.innerHTML = `<div class="fr">${w.innerHTML}<i class="shd"></i></div><div class="bk">${V[k]()}<i class="shd"></i></div>`;
   f.querySelector('.fr').style.setProperty('--pt', w.offsetTop + 'px');
   f.querySelector('.bk').style.setProperty('--pt', w.offsetTop + 'px');
   m.appendChild(f);
-  const r = a => ({ transform: `perspective(1800px) rotateY(${a}deg)` }),
-    op = [{ opacity: 1 }, { opacity: 1, offset: .8 }, { opacity: 0 }];
+  const r = a => ({ transform: `perspective(1600px) rotateY(${a}deg)` }),
+    op = [{ opacity: 1 }, { opacity: 1, offset: .7 }, { opacity: 0 }];
   f.querySelectorAll('.fr,.bk').forEach(x => x.animate(op, o));
-  f.querySelectorAll('.shd').forEach(x => x.animate([{ opacity: 0 }, { opacity: 1, offset: .5 }, { opacity: 0 }], o));
+  f.querySelectorAll('.shd').forEach(x => x.animate([{ opacity: 0 }, { opacity: .6, offset: .5 }, { opacity: 0 }], o));
   S.v = k;
   S.fresh = 1;
-  w.style.setProperty('--hd', '.85s');
+  w.style.setProperty('--hd', '.6s');
   render();
-  const an = f.animate([r(0), r(-172)], o);
+  const an = f.animate([r(0), r(-168)], o);
   an.onfinish = () => { f.remove(); S.busy = 0; };
-  setTimeout(() => { S.busy = 0; }, 2500);
+  setTimeout(() => { S.busy = 0; }, 1500);
 }
 
 let dg = null;

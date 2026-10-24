@@ -244,19 +244,19 @@ const L = {
     const q = S.q.toLowerCase(),
       r = D.notes.filter(n => (S.sub == 'All' || n.s == S.sub) && (S.yr == 'All' || n.y == S.yr) && n.t.toLowerCase().includes(q));
     return r.length ? `<div class="grid">${r.map(n => `
-      <div class="card">
+      <div class="card" data-a="pvN" data-id="${n.id}" style="cursor:pointer" role="button" tabindex="0">
         <div class="row sp">
           <span class="tag">${n.s}</span>
-          <button class="ib${S.bm.has(n.id) ? ' on' : ''}" data-a="bm" data-id="${n.id}" aria-label="Save note">${star}</button>
+          <button class="ib${S.bm.has(n.id) ? ' on' : ''}" data-a="bm" data-id="${n.id}" aria-label="Save note" onclick="event.stopPropagation()">${star}</button>
         </div>
         <h3 style="margin-top:10px">${n.t}</h3>
         <div class="sm">${n.y} year, shared by ${n.by}</div>
         <div class="row sp" style="margin-top:12px;padding-top:8px;border-top:1px dashed var(--line);align-items:center">
           <span class="mono sm">★ ${Number(n.r).toFixed(1)}/5</span>
           <div class="row" style="gap:4px">
-            <button class="btn s alt" data-a="vwN" data-id="${n.id}">View</button>
-            <button class="btn s alt" data-a="edN" data-id="${n.id}">Edit</button>
-            <button class="btn s alt" style="color:var(--mar);border-color:color-mix(in srgb,var(--mar) 40%,var(--line))" data-a="delN" data-id="${n.id}">Delete</button>
+            <button class="btn s alt" data-a="vwN" data-id="${n.id}" onclick="event.stopPropagation()">View</button>
+            <button class="btn s alt" data-a="edN" data-id="${n.id}" onclick="event.stopPropagation()">Edit</button>
+            <button class="btn s alt" style="color:var(--mar);border-color:color-mix(in srgb,var(--mar) 40%,var(--line))" data-a="delN" data-id="${n.id}" onclick="event.stopPropagation()">Delete</button>
           </div>
         </div>
       </div>
@@ -268,7 +268,7 @@ const L = {
     return r.length ? `<div class="grid">${r.map((e, i) => {
       const isReg = S.regs.has(e.id || i);
       return `
-        <div class="card">
+        <div class="card" data-a="pvEv" data-i="${i}" style="cursor:pointer" role="button" tabindex="0">
           ${e.img ? `<div class="polaroid"><img src="${e.img}" alt="${e.t}" loading="lazy" onerror="this.parentElement.style.display='none'"><span class="badge">${e.c}</span></div>` : ''}
           <div class="row">
             <span class="tag">${e.c}</span>
@@ -278,12 +278,12 @@ const L = {
           <div class="sm">${new Date(e.d).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })} at ${e.v}</div>
           <div class="row sp" style="margin-top:12px;padding-top:8px;border-top:1px dashed var(--line);align-items:center">
             <div class="row" style="gap:6px">
-              <button class="btn s ${isReg ? 'alt' : ''}" style="${isReg ? 'background:var(--c);color:var(--on);font-weight:600' : ''}" data-a="reg" data-i="${i}">${isReg ? 'Registered ✓' : 'Register'}</button>
-              <button class="btn s alt" data-a="cal" data-i="${i}">Cal</button>
+              <button class="btn s ${isReg ? 'alt' : ''}" style="${isReg ? 'background:var(--c);color:var(--on);font-weight:600' : ''}" data-a="reg" data-i="${i}" onclick="event.stopPropagation()">${isReg ? 'Registered ✓' : 'Register'}</button>
+              <button class="btn s alt" data-a="cal" data-i="${i}" onclick="event.stopPropagation()">Cal</button>
             </div>
             <div class="row" style="gap:4px">
-              <button class="btn s alt" data-a="edEv" data-i="${i}">Edit</button>
-              <button class="btn s alt" style="color:var(--mar);border-color:color-mix(in srgb,var(--mar) 40%,var(--line))" data-a="delEv" data-i="${i}">Delete</button>
+              <button class="btn s alt" data-a="edEv" data-i="${i}" onclick="event.stopPropagation()">Edit</button>
+              <button class="btn s alt" style="color:var(--mar);border-color:color-mix(in srgb,var(--mar) 40%,var(--line))" data-a="delEv" data-i="${i}" onclick="event.stopPropagation()">Delete</button>
             </div>
           </div>
         </div>
@@ -296,7 +296,7 @@ const L = {
     return r.map(j => {
       const n = days(j.dl), due = n >= 0 && n <= 3 && ['Applied', 'Interview'].includes(j.st);
       return `
-        <div class="card" style="margin-bottom:12px">
+        <div class="card" style="margin-bottom:12px;cursor:pointer" data-a="pvJ" data-id="${j.id}" role="button" tabindex="0">
           <div class="row sp">
             <div>
               <h3 style="margin:0">${j.co}</h3>
@@ -304,7 +304,7 @@ const L = {
             </div>
             <div class="row">
               ${due ? `<span class="tag" style="--c:var(--mar)">Due in ${n} day${n == 1 ? '' : 's'}</span>` : ''}
-              <select data-job="${j.id}">
+              <select data-job="${j.id}" onclick="event.stopPropagation()">
                 ${['Applied', 'Interview', 'Selected', 'Rejected'].map(s => `<option${j.st == s ? ' selected' : ''}>${s}</option>`).join('')}
               </select>
             </div>
@@ -312,8 +312,8 @@ const L = {
           <div class="row sp" style="margin-top:10px;padding-top:8px;border-top:1px dashed var(--line);align-items:center">
             <span class="mono sm" style="color:var(--mute)">Status: <b>${j.st}</b></span>
             <div class="row" style="gap:4px">
-              <button class="btn s alt" data-a="edJ" data-id="${j.id}">Edit</button>
-              <button class="btn s alt" style="color:var(--mar);border-color:color-mix(in srgb,var(--mar) 40%,var(--line))" data-a="delJ" data-id="${j.id}">Delete</button>
+              <button class="btn s alt" data-a="edJ" data-id="${j.id}" onclick="event.stopPropagation()">Edit</button>
+              <button class="btn s alt" style="color:var(--mar);border-color:color-mix(in srgb,var(--mar) 40%,var(--line))" data-a="delJ" data-id="${j.id}" onclick="event.stopPropagation()">Delete</button>
             </div>
           </div>
         </div>
@@ -325,7 +325,7 @@ const L = {
     const q = S.q.toLowerCase(),
       r = D.lf.filter(x => x.k == S.lt && x.t.toLowerCase().includes(q));
     return r.length ? `<div class="grid">${r.map(x => `
-      <div class="card">
+      <div class="card" data-a="pvLf" data-id="${x.id}" style="cursor:pointer" role="button" tabindex="0">
         <div class="polaroid">
           ${x.img ? `<img src="${x.img}" alt="${x.t}" loading="lazy" onerror="this.parentElement.innerHTML='Item photo'">` : 'Item photo'}
           <span class="badge" style="background:${x.k == 'lost' ? 'var(--mar)' : '#10b981'}">${x.k.toUpperCase()}</span>
@@ -333,7 +333,7 @@ const L = {
         <h3>${x.t}</h3>
         <div class="sm">${x.w}, ${x.d}</div>
         <div style="margin-top:12px;padding-top:8px;border-top:1px dashed var(--line)">
-          <button class="btn s" data-a="contact" data-id="${x.id}">Contact ${x.k == 'lost' ? 'owner' : 'finder'}</button>
+          <button class="btn s" data-a="contact" data-id="${x.id}" onclick="event.stopPropagation()">Contact ${x.k == 'lost' ? 'owner' : 'finder'}</button>
         </div>
       </div>
     `).join('')}</div>` : `<p class="empty">Nothing reported. Post what you found or lost.</p>`;
@@ -342,7 +342,7 @@ const L = {
   mess: () => {
     const r = D.mess.filter(m => (S.diet == 'All' || (S.diet == 'Veg' ? m.v : !m.v)) && (S.bud == 'Any' || m.p <= +S.bud.slice(-3)));
     return r.map(m => `
-      <div class="card" style="margin-bottom:12px">
+      <div class="card" style="margin-bottom:12px;cursor:pointer" data-a="pvM" data-n="${m.n}" role="button" tabindex="0">
         ${m.img ? `<div class="polaroid" style="height:115px;margin-bottom:10px"><img src="${m.img}" alt="${m.n}" loading="lazy" onerror="this.parentElement.style.display='none'"><span class="badge">${m.v ? 'Pure Veg' : 'Non-Veg'}</span></div>` : ''}
         <div class="row sp">
           <h3 style="margin:0">${m.n}</h3>
@@ -350,18 +350,18 @@ const L = {
         </div>
         <div class="sm">Rs ${m.p} per meal, ${m.v ? 'veg' : 'non-veg'}, rated ${m.r} ★ (Timing: ${m.o}:00 - ${m.c}:00)</div>
         <div style="margin-top:10px;padding-top:8px;border-top:1px dashed var(--line)">
-          <button class="btn s alt" data-a="rv">Reviews (${m.rv ? m.rv.length : 0})</button>
+          <button class="btn s alt" data-a="rv" onclick="event.stopPropagation()">Reviews (${m.rv ? m.rv.length : 0})</button>
         </div>
         <div class="rev">
           ${(m.rv || []).map((x, ri) => `
             <div class="row sp" style="margin:4px 0;padding:2px 0">
               <p style="margin:0;font-size:13px;flex:1">${x}</p>
-              <button class="btn s alt" style="padding:1px 6px;font-size:11px;color:var(--mar);margin-left:8px" data-a="delrv" data-n="${m.n}" data-ri="${ri}">×</button>
+              <button class="btn s alt" style="padding:1px 6px;font-size:11px;color:var(--mar);margin-left:8px" data-a="delrv" data-n="${m.n}" data-ri="${ri}" onclick="event.stopPropagation()">×</button>
             </div>
           `).join('')}
           <div class="row" style="margin-top:8px">
-            <input placeholder="Add a review" id="r${m.n.replace(/\s+/g, '')}" style="flex:1">
-            <button class="btn s" data-a="addrv" data-n="${m.n}">Post</button>
+            <input placeholder="Add a review" id="r${m.n.replace(/\s+/g, '')}" style="flex:1" onclick="event.stopPropagation()">
+            <button class="btn s" data-a="addrv" data-n="${m.n}" onclick="event.stopPropagation()">Post</button>
           </div>
         </div>
       </div>
@@ -371,19 +371,22 @@ const L = {
   pyq: () => {
     const q = S.q.toLowerCase(),
       r = D.Q.filter(x => x[0] == S.ps && x[1].toLowerCase().includes(q));
-    return r.map(x => `
-      <div class="card" style="margin-bottom:12px">
+    return r.map(x => {
+      const idxQ = D.Q.indexOf(x);
+      return `
+      <div class="card" style="margin-bottom:12px;cursor:pointer" data-a="pvQ" data-i="${idxQ}" role="button" tabindex="0">
         <div class="row sp">
           <span class="tag">${x[0]}</span>
           <div class="row" style="gap:4px">
-            <button class="btn s alt" style="padding:2px 8px;font-size:12px" data-a="edQ" data-i="${D.Q.indexOf(x)}">Edit</button>
-            <button class="btn s alt" style="padding:2px 8px;font-size:12px;color:var(--mar);border-color:color-mix(in srgb,var(--mar) 40%,var(--line))" data-a="delQ" data-i="${D.Q.indexOf(x)}">Delete</button>
+            <button class="btn s alt" style="padding:2px 8px;font-size:12px" data-a="edQ" data-i="${idxQ}" onclick="event.stopPropagation()">Edit</button>
+            <button class="btn s alt" style="padding:2px 8px;font-size:12px;color:var(--mar);border-color:color-mix(in srgb,var(--mar) 40%,var(--line))" data-a="delQ" data-i="${idxQ}" onclick="event.stopPropagation()">Delete</button>
           </div>
         </div>
         <h3 style="margin-top:8px;margin-bottom:4px">${x[1]}</h3>
         <div class="sm" style="color:var(--mute)">Asked <b>${x[2]}</b> times in the last 5 papers</div>
       </div>
-    `).join('') || `<p class="empty">No question matches. Try a shorter word.</p>`;
+    `;
+    }).join('') || `<p class="empty">No question matches. Try a shorter word.</p>`;
   }
 };
 
@@ -417,17 +420,41 @@ const V = {
     </div>`;
   },
 
-  notes: () => `<div class="view" style="--c:var(--notes)">
-    ${hd('Campus notes', 'Find notes and past papers by subject and year, rate them, edit or upload your own notes.')}
-    <div class="bar">
-      <input type="search" placeholder="Search notes" data-k="q" value="${S.q}">
-      ${sel('sub', ['All', 'COAM', 'IoT', 'EVS', 'DSA', 'DBMS', 'OS'])}
-      ${sel('yr', ['All', 'SE', 'TE', 'BE'])}
-      <button class="btn" data-a="upN">+ Upload notes</button>
-    </div>
-    <div id="list">${L.notes()}</div>
-    ${me()}
-  </div>`,
+  notes: () => {
+    const bms = D.notes.filter(n => S.bm.has(n.id));
+    return `<div class="view" style="--c:var(--notes)">
+      ${hd('Campus notes', 'Find notes and past papers by subject and year, rate them, edit or upload your own notes.')}
+      <div class="bar">
+        <input type="search" placeholder="Search notes" data-k="q" value="${S.q}">
+        ${sel('sub', ['All', 'COAM', 'IoT', 'EVS', 'DSA', 'DBMS', 'OS'])}
+        ${sel('yr', ['All', 'SE', 'TE', 'BE'])}
+        <button class="btn" data-a="upN">+ Upload notes</button>
+      </div>
+      ${bms.length ? `<div style="margin-bottom:18px">
+        <div class="row sp" style="margin-bottom:10px">
+          <h3 style="margin:0">Bookmarked notes</h3>
+          <span class="sm">${bms.length} saved</span>
+        </div>
+        <div class="grid">${bms.map(n => `
+          <div class="card" data-a="pvN" data-id="${n.id}" style="cursor:pointer" role="button" tabindex="0">
+            <div class="row sp">
+              <span class="tag">${n.s}</span>
+              <button class="ib on" data-a="bm" data-id="${n.id}" aria-label="Remove bookmark" onclick="event.stopPropagation()">${star}</button>
+            </div>
+            <h3 style="margin-top:10px">${n.t}</h3>
+            <div class="sm">${n.y} year, shared by ${n.by}</div>
+            <div class="row sp" style="margin-top:12px;padding-top:8px;border-top:1px dashed var(--line);align-items:center">
+              <span class="mono sm">★ ${Number(n.r).toFixed(1)}/5</span>
+              <span class="sm">Bookmarked</span>
+            </div>
+          </div>
+        `).join('')}</div>
+      </div>` : ''}
+      <h3 style="margin:0 0 10px">All notes</h3>
+      <div id="list">${L.notes()}</div>
+      ${me()}
+    </div>`;
+  },
 
   planner: () => `<div class="view" style="--c:var(--planner)">
     ${hd('Exam planner', 'Count down to your first paper, customize your timetable, and tick off your study plan.')}
@@ -509,7 +536,7 @@ const V = {
   },
 
   lost: () => `<div class="view" style="--c:var(--lost)">
-    ${hd('Lost and found', 'Report what you lost or found with photos so it gets back to its owner, without scrolling chat groups.')}
+    ${hd('Lost and found', 'Report what you lost or found with photos so it gets back to its owner, without scrolling chat groups. (USERS COLLEGE ONLY)')}
     <div class="bar">
       ${chips('lt', ['lost', 'found'])}
       <input type="search" placeholder="Search items" data-k="q" value="${S.q}">
@@ -532,14 +559,17 @@ const V = {
       </div>
       <div class="card">
         <h3>Around campus</h3>
-        <svg viewBox="0 0 300 220" width="100%" role="img" aria-label="Map of places near campus">
-          <path d="M0 70H300M0 150H300M90 0V220M210 0V220" stroke="var(--line)" stroke-width="6" fill="none"/>
-          ${[[60, 40], [150, 110], [250, 60], [120, 185], [45, 120], [205, 160], [235, 35], [175, 195]].map((p, i) => `
-            <circle cx="${p[0]}" cy="${p[1]}" r="13" fill="var(--c)" stroke="var(--ink)"/>
-            <text x="${p[0]}" y="${p[1] + 5}" text-anchor="middle" font-size="13" fill="#15213b">${i + 1}</text>
-          `).join('')}
-        </svg>
-        <p class="sm">Pins follow the list order.</p>
+        <div style="position:relative;border-radius:8px;overflow:hidden;border:1px solid var(--line);margin-top:10px">
+          <img src="screenshots/image.png" alt="Campus map of mess and cafe locations" style="width:100%;display:block;object-fit:cover" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+          <svg viewBox="0 0 300 220" width="100%" style="display:none" role="img" aria-label="Map of places near campus">
+            <path d="M0 70H300M0 150H300M90 0V220M210 0V220" stroke="var(--line)" stroke-width="6" fill="none"/>
+            ${[[60, 40], [150, 110], [250, 60], [120, 185], [45, 120], [205, 160], [235, 35], [175, 195]].map((p, i) => `
+              <circle cx="${p[0]}" cy="${p[1]}" r="13" fill="var(--c)" stroke="var(--ink)"/>
+              <text x="${p[0]}" y="${p[1] + 5}" text-anchor="middle" font-size="13" fill="#15213b">${i + 1}</text>
+            `).join('')}
+          </svg>
+        </div>
+        <p class="sm" style="margin-top:8px">Pins follow the list order.</p>
       </div>
     </div>
     ${me()}
@@ -672,7 +702,7 @@ const v = id => $('#' + id).value.trim();
 
 /* ── Action Handlers ─────────────────────────────────────── */
 const A = {
-  go: d => { S.v = d.v; S.q = ''; S.fresh = 1; $('#v').style.setProperty('--hd', '.4s'); X(); render(); scrollTo(0, 0); },
+  go: d => { S.v = d.v; S.q = ''; S.fresh = 1; $('#v').style.setProperty('--hd', '.4s'); X(); render(); window.scrollTo({ top: 0, behavior: 'smooth' }); },
   set: d => { S[d.k] = d.val; S.q = ''; render(); },
   th: () => {
     const dk = root.dataset.theme ? root.dataset.theme == 'dark' : matchMedia('(prefers-color-scheme:dark)').matches,
@@ -684,8 +714,7 @@ const A = {
     const i = +d.id;
     S.bm.has(i) ? S.bm.delete(i) : S.bm.add(i);
     saveBookmarks();
-    list();
-    render0();
+    if (S.v == 'notes') render(); else { list(); render0(); }
   },
   resetData: () => {
     if (confirm('Reset all modules back to initial demo data?')) {
@@ -1025,6 +1054,132 @@ const A = {
     }
   },
 
+  /* Preview handlers */
+  pvN: d => {
+    const n = D.notes.find(x => x.id == d.id);
+    if (!n) return;
+    M(`
+      <div class="row sp">
+        <span class="tag">${n.s}</span>
+        <button class="ib" data-a="x" aria-label="Close"><svg viewBox="0 0 20 20"><path d="M5 5l10 10M15 5L5 15"/></svg></button>
+      </div>
+      <h2 class="d" style="margin-top:6px">${n.t}</h2>
+      <p class="sm" style="color:var(--mute)">${n.y} Year • Shared by ${n.by} • Rated ${n.r} of 5 ★</p>
+      <div style="background:var(--rule);padding:12px;border-radius:6px;font-size:13.5px">
+        <b>Preview</b>
+        <ul style="padding-left:18px;margin-top:6px;line-height:1.5">
+          <li>Complete syllabus alignment</li>
+          <li>Diagrams, pinouts & block schemes</li>
+          <li>Numericals & trace tables</li>
+          <li>High-yield questions</li>
+        </ul>
+      </div>
+      <div class="row sp" style="margin-top:10px">
+        <button class="btn" data-a="vwN" data-id="${n.id}">Full View</button>
+        <button class="btn alt" data-a="x">Close</button>
+      </div>
+    `);
+  },
+  pvEv: d => {
+    const e = D.ev[+d.i];
+    if (!e) return;
+    M(`
+      <div class="row sp">
+        <div class="row" style="gap:6px">
+          <span class="tag">${e.c}</span>
+          <span class="tag q">${e.m}</span>
+        </div>
+        <button class="ib" data-a="x" aria-label="Close"><svg viewBox="0 0 20 20"><path d="M5 5l10 10M15 5L5 15"/></svg></button>
+      </div>
+      ${e.img ? `<div class="polaroid" style="height:140px"><img src="${e.img}" alt="${e.t}"></div>` : ''}
+      <h2 class="d" style="margin-top:6px">${e.t}</h2>
+      <p class="sm">${new Date(e.d).toLocaleDateString('en-IN', { weekday:'long', day:'numeric', month:'short', year:'numeric' })} • ${e.v}</p>
+      <div style="background:var(--rule);padding:10px 12px;border-radius:6px;font-size:13.5px">Campus event • Register to get updates</div>
+      <div class="row sp" style="margin-top:10px">
+        <button class="btn" data-a="reg" data-i="${d.i}" onclick="X()">Register</button>
+        <button class="btn alt" data-a="cal" data-i="${d.i}">Add to Calendar</button>
+      </div>
+    `);
+  },
+  pvJ: d => {
+    const j = D.jobs.find(x => x.id == d.id);
+    if (!j) return;
+    M(`
+      <div class="row sp">
+        <h2 class="d" style="margin:0">${j.co}</h2>
+        <button class="ib" data-a="x" aria-label="Close"><svg viewBox="0 0 20 20"><path d="M5 5l10 10M15 5L5 15"/></svg></button>
+      </div>
+      <p class="sm" style="color:var(--mute)">${j.role}</p>
+      <div class="row" style="gap:6px;margin-top:8px">
+        <span class="tag" style="--c:var(--jobs)">${j.st}</span>
+        <span class="tag q">Apply by ${new Date(j.dl).toLocaleDateString('en-IN', { day:'numeric', month:'short' })}</span>
+      </div>
+      <div style="background:var(--rule);padding:10px 12px;border-radius:6px;font-size:13.5px;margin-top:10px">Track status in Jobs tab</div>
+      <div class="row sp" style="margin-top:10px">
+        <button class="btn" data-a="edJ" data-id="${j.id}">Edit</button>
+        <button class="btn alt" data-a="x">Close</button>
+      </div>
+    `);
+  },
+  pvLf: d => {
+    const x = D.lf.find(i => i.id == d.id);
+    if (!x) return;
+    M(`
+      <div class="row sp">
+        <span class="tag" style="--c:${x.k=='lost'?'var(--mar)':'#10b981'}">${x.k.toUpperCase()}</span>
+        <button class="ib" data-a="x" aria-label="Close"><svg viewBox="0 0 20 20"><path d="M5 5l10 10M15 5L5 15"/></svg></button>
+      </div>
+      <div class="polaroid" style="height:140px">
+        ${x.img ? `<img src="${x.img}" alt="${x.t}">` : 'Item photo'}
+      </div>
+      <h2 class="d" style="margin-top:6px">${x.t}</h2>
+      <p class="sm" style="color:var(--mute)">${x.w} • ${x.d}</p>
+      <div style="background:var(--rule);padding:10px 12px;border-radius:6px;font-size:13.5px">Reach out if you have info</div>
+      <div class="row sp" style="margin-top:10px">
+        <button class="btn" data-a="contact" data-id="${x.id}">Contact ${x.k=='lost'?'owner':'finder'}</button>
+        <button class="btn alt" data-a="x">Close</button>
+      </div>
+    `);
+  },
+  pvM: d => {
+    const m = D.mess.find(x => x.n == d.n);
+    if (!m) return;
+    M(`
+      <div class="row sp">
+        <div class="row" style="gap:6px">
+          <h2 class="d" style="margin:0">${m.n}</h2>
+          <span class="tag" style="--c:${open(m)?'var(--lost)':'var(--rule)'}">${open(m)?'Open now':'Closed'}</span>
+        </div>
+        <button class="ib" data-a="x" aria-label="Close"><svg viewBox="0 0 20 20"><path d="M5 5l10 10M15 5L5 15"/></svg></button>
+      </div>
+      ${m.img ? `<div class="polaroid" style="height:140px"><img src="${m.img}" alt="${m.n}"></div>` : ''}
+      <p class="sm" style="color:var(--mute)">Rs ${m.p}/meal • ${m.v?'Pure Veg':'Non-Veg'} • ${m.r} ★</p>
+      <p class="sm">Timing: ${m.o}:00 - ${m.c}:00</p>
+      <div style="background:var(--rule);padding:10px 12px;border-radius:6px;font-size:13.5px">Reviews: ${(m.rv||[]).length}</div>
+      <div class="row sp" style="margin-top:10px">
+        <button class="btn" data-a="rv" onclick="X()">View Reviews</button>
+        <button class="btn alt" data-a="x">Close</button>
+      </div>
+    `);
+  },
+  pvQ: d => {
+    const q = D.Q[+d.i];
+    if (!q) return;
+    M(`
+      <div class="row sp">
+        <span class="tag">${q[0]}</span>
+        <button class="ib" data-a="x" aria-label="Close"><svg viewBox="0 0 20 20"><path d="M5 5l10 10M15 5L5 15"/></svg></button>
+      </div>
+      <h2 class="d" style="margin-top:6px;font-size:22px;line-height:1.3">${q[1]}</h2>
+      <p class="sm">Asked <b>${q[2]}</b> times in the last 5 papers</p>
+      <div style="background:var(--rule);padding:10px 12px;border-radius:6px;font-size:13.5px">PYQ Radar • ${q[0]}</div>
+      <div class="row sp" style="margin-top:10px">
+        <button class="btn" data-a="edQ" data-i="${d.i}">Edit</button>
+        <button class="btn alt" data-a="x">Close</button>
+      </div>
+    `);
+  },
+
   /* Lost and Found */
   rep: () => M(`
     <h2 class="d">Report Item</h2>
@@ -1271,6 +1426,16 @@ document.addEventListener('click', e => {
   if (a && a.type != 'checkbox') A[a.dataset.a]?.(a.dataset, a);
 });
 
+document.addEventListener('keydown', e => {
+  if ((e.key === 'Enter' || e.key === ' ') && e.target.closest('.card[role="button"]')) {
+    const a = e.target.closest('.card[role="button"]');
+    if (a.dataset.a && e.target === a) {
+      e.preventDefault();
+      A[a.dataset.a]?.(a.dataset, a);
+    }
+  }
+});
+
 document.addEventListener('change', e => {
   const t = e.target;
   if (t.type == 'checkbox' && t.dataset.a) A.tt(t.dataset, t);
@@ -1413,7 +1578,7 @@ document.addEventListener('pointerup', up);
 document.addEventListener('pointercancel', up);
 
 document.addEventListener('keydown', e => {
-  if (e.key == 'Escape') closeDD();
+  if (e.key == 'Escape') { closeDD(); X(); }
   if (e.target.classList.contains('thumb') && (e.key == 'ArrowDown' || e.key == 'ArrowUp')) {
     e.preventDefault();
     go2(Math.max(0, Math.min(NAV.length - 1, S.hi + (e.key == 'ArrowDown' ? 1 : -1))));

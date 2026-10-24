@@ -51,7 +51,8 @@
 }
 
 html {
-    scroll-padding-top: env(safe-area-inset-top, 0px)
+    scroll-padding-top: env(safe-area-inset-top, 0px);
+    scroll-behavior: smooth
 }
 
 * {
@@ -62,7 +63,10 @@ html {
 body {
     font: 15px/1.55 'IBM Plex Sans', system-ui, sans-serif;
     color: var(--ink);
-    background: repeating-linear-gradient(transparent 0 27px, var(--rule) 27px 28px), var(--bg)
+    background: repeating-linear-gradient(transparent 0 27px, var(--rule) 27px 28px), var(--bg);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility
 }
 
 .d {
@@ -112,14 +116,22 @@ textarea {
     padding: 9px 10px;
     border-radius: 6px;
     font-weight: 500;
-    color: var(--mute)
+    color: var(--mute);
+    transition: background .25s cubic-bezier(.25,.9,.3,1), color .25s cubic-bezier(.25,.9,.3,1), transform .25s cubic-bezier(.25,.9,.3,1)
+}
+
+.nv:hover:not(.on) {
+    background: color-mix(in srgb, var(--c) 10%, transparent);
+    color: var(--ink);
+    transform: translateX(2px)
 }
 
 .nv i {
     width: 10px;
     height: 10px;
     border-radius: 50%;
-    background: var(--c)
+    background: var(--c);
+    transition: background .25s cubic-bezier(.25,.9,.3,1)
 }
 
 .nv.on {
@@ -129,6 +141,15 @@ textarea {
 
 .nv.on i {
     background: var(--on)
+}
+
+@media(prefers-reduced-motion: reduce) {
+    .nv {
+        transition: none
+    }
+    .nv:hover:not(.on) {
+        transform: none
+    }
 }
 
 .nv b {
@@ -200,16 +221,16 @@ textarea {
 /* ── Scroll-reveal animation ─────────────────────────────── */
 .reveal-hidden {
     opacity: 0 !important;
-    transform: translateY(26px) !important;
+    transform: translateY(28px) scale(0.98) !important;
     transition:
-        opacity  .8s cubic-bezier(.25,.9,.3,1),
-        transform .8s cubic-bezier(.25,.9,.3,1) !important;
+        opacity  .9s cubic-bezier(.25,.9,.3,1),
+        transform .9s cubic-bezier(.25,.9,.3,1) !important;
     will-change: opacity, transform
 }
 
 .reveal-visible {
     opacity: 1 !important;
-    transform: translateY(0) !important
+    transform: translateY(0) scale(1) !important
 }
 
 @media(prefers-reduced-motion: reduce) {
@@ -236,14 +257,32 @@ textarea {
     border-radius: 8px;
     padding: 20px 16px 14px;
     box-shadow: var(--card-shadow, none);
-    transition: box-shadow .25s, border-color .25s, transform .25s cubic-bezier(.25,.9,.3,1)
+    transition: box-shadow .3s cubic-bezier(.25,.9,.3,1), border-color .3s cubic-bezier(.25,.9,.3,1), transform .3s cubic-bezier(.25,.9,.3,1)
 }
 
 .card:hover {
-    border-color: color-mix(in srgb, var(--c, var(--ink)) 60%, var(--line));
-    transform: translateY(-3px);
-    box-shadow: var(--card-hover-shadow, 0 6px 20px rgba(21,33,59,.12)),
-                0 0 0 1px color-mix(in srgb, var(--c, transparent) 18%, transparent)
+    border-color: color-mix(in srgb, var(--c, var(--ink)) 65%, var(--line));
+    transform: translateY(-4px) scale(1.01);
+    box-shadow: var(--card-hover-shadow, 0 10px 28px rgba(21,33,59,.16)),
+                0 0 0 1px color-mix(in srgb, var(--c, transparent) 22%, transparent)
+}
+
+.card[role="button"] {
+    outline: none
+}
+
+.card[role="button"]:focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 2px
+}
+
+@media(prefers-reduced-motion: reduce) {
+    .card {
+        transition: border-color .2s, box-shadow .2s
+    }
+    .card:hover {
+        transform: none
+    }
 }
 
 .card::before {
@@ -309,12 +348,39 @@ textarea {
     padding: 8px 14px;
     font-weight: 500;
     text-decoration: none;
-    display: inline-block
+    display: inline-block;
+    transition: transform .25s cubic-bezier(.25,.9,.3,1), box-shadow .25s cubic-bezier(.25,.9,.3,1), opacity .2s;
+    will-change: transform
+}
+
+.btn:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(21,33,59,.18)
+}
+
+.btn:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(21,33,59,.14)
 }
 
 .btn.alt {
     background: none;
     color: var(--ink)
+}
+
+.btn.alt:hover:not(:disabled) {
+    background: var(--rule)
+}
+
+@media(prefers-reduced-motion: reduce) {
+    .btn {
+        transition: none
+    }
+    .btn:hover:not(:disabled),
+    .btn:active:not(:disabled) {
+        transform: none;
+        box-shadow: none
+    }
 }
 
 .btn.s {
@@ -328,13 +394,28 @@ textarea {
     background: var(--paper);
     border-radius: 99px;
     padding: 4px 13px;
-    font-size: 13.5px
+    font-size: 13.5px;
+    transition: background .25s cubic-bezier(.25,.9,.3,1), color .25s cubic-bezier(.25,.9,.3,1), border-color .25s cubic-bezier(.25,.9,.3,1), transform .25s cubic-bezier(.25,.9,.3,1)
+}
+
+.chip:hover:not(.on) {
+    border-color: var(--ink);
+    transform: translateY(-1px)
 }
 
 .chip.on {
     background: var(--c);
     color: var(--on);
     border-color: var(--ink)
+}
+
+@media(prefers-reduced-motion: reduce) {
+    .chip {
+        transition: none
+    }
+    .chip:hover:not(.on) {
+        transform: none
+    }
 }
 
 .top-btn {
@@ -351,12 +432,23 @@ textarea {
     line-height: 1.2;
     white-space: nowrap;
     color: var(--ink);
-    text-decoration: none
+    text-decoration: none;
+    transition: border-color .25s cubic-bezier(.25,.9,.3,1), background .25s cubic-bezier(.25,.9,.3,1), transform .25s cubic-bezier(.25,.9,.3,1)
 }
 
 .top-btn:hover {
     border-color: var(--ink);
-    background: var(--rule)
+    background: var(--rule);
+    transform: translateY(-1px)
+}
+
+@media(prefers-reduced-motion: reduce) {
+    .top-btn {
+        transition: none
+    }
+    .top-btn:hover {
+        transform: none
+    }
 }
 
 .bar {
@@ -391,7 +483,13 @@ textarea {
     cursor: pointer;
     padding: 4px;
     border-radius: 6px;
-    display: inline-flex
+    display: inline-flex;
+    transition: background .2s cubic-bezier(.25,.9,.3,1), transform .2s cubic-bezier(.25,.9,.3,1)
+}
+
+.ib:hover {
+    background: var(--rule);
+    transform: scale(1.08)
 }
 
 .ib svg {
@@ -399,11 +497,21 @@ textarea {
     height: 20px;
     fill: none;
     stroke: var(--ink);
-    stroke-width: 1.7
+    stroke-width: 1.7;
+    transition: fill .25s cubic-bezier(.25,.9,.3,1)
 }
 
 .ib.on svg {
     fill: var(--c);
+}
+
+@media(prefers-reduced-motion: reduce) {
+    .ib {
+        transition: none
+    }
+    .ib:hover {
+        transform: none
+    }
 }
 
 .empty {
@@ -479,7 +587,8 @@ textarea {
     padding: 20px 16px 14px;
     display: block;
     box-shadow: var(--card-shadow, none);
-    transition: box-shadow .25s, border-color .25s, transform .25s cubic-bezier(.25,.9,.3,1)
+    transition: box-shadow .3s cubic-bezier(.25,.9,.3,1), border-color .3s cubic-bezier(.25,.9,.3,1), transform .3s cubic-bezier(.25,.9,.3,1);
+    outline: none
 }
 
 .tile::before {
@@ -494,10 +603,24 @@ textarea {
 }
 
 .tile:hover {
-    border-color: color-mix(in srgb, var(--c, var(--ink)) 70%, var(--line));
-    transform: translateY(-3px);
-    box-shadow: var(--card-hover-shadow, 0 6px 20px rgba(21,33,59,.12)),
-                0 0 0 1px color-mix(in srgb, var(--c, transparent) 20%, transparent)
+    border-color: color-mix(in srgb, var(--c, var(--ink)) 75%, var(--line));
+    transform: translateY(-4px) scale(1.015);
+    box-shadow: var(--card-hover-shadow, 0 10px 26px rgba(21,33,59,.16)),
+                0 0 0 1px color-mix(in srgb, var(--c, transparent) 24%, transparent)
+}
+
+.tile:focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 2px
+}
+
+@media(prefers-reduced-motion: reduce) {
+    .tile {
+        transition: border-color .2s, box-shadow .2s
+    }
+    .tile:hover {
+        transform: none
+    }
 }
 
 .tile .d {
@@ -609,11 +732,20 @@ th {
     height: 100%;
     object-fit: cover;
     display: block;
-    transition: transform .3s ease;
+    transition: transform .4s cubic-bezier(.25,.9,.3,1);
 }
 
 .card:hover .polaroid img {
-    transform: scale(1.04);
+    transform: scale(1.06);
+}
+
+@media(prefers-reduced-motion: reduce) {
+    .polaroid img {
+        transition: none
+    }
+    .card:hover .polaroid img {
+        transform: none
+    }
 }
 
 .polaroid .badge {
@@ -758,7 +890,11 @@ th {
     stroke-width: 1.7;
     stroke-linecap: round;
     stroke-linejoin: round;
-    transition: transform .3s var(--sp), fill .25s
+    transition: transform .35s var(--sp), fill .3s
+}
+
+.bt {
+    transition: color .25s
 }
 
 .bt.hot {
@@ -766,8 +902,8 @@ th {
 }
 
 .bt.hot svg {
-    fill: color-mix(in srgb, var(--c) 60%, transparent);
-    transform: translateY(-1px) scale(1.08)
+    fill: color-mix(in srgb, var(--c) 65%, transparent);
+    transform: translateY(-2px) scale(1.12)
 }
 
 .bt b {
@@ -833,6 +969,9 @@ th {
     .bl,
     .bt svg {
         transition: none !important
+    }
+    .bn .bt {
+        transition: none
     }
 }
 
@@ -1426,11 +1565,22 @@ body {
     display: grid;
     place-items: center;
     border-radius: 10px;
-    color: var(--ink)
+    color: var(--ink);
+    transition: background .25s cubic-bezier(.25,.9,.3,1), transform .25s cubic-bezier(.25,.9,.3,1)
 }
 
 .tg:hover {
-    background: var(--rule)
+    background: var(--rule);
+    transform: scale(1.05)
+}
+
+@media(prefers-reduced-motion: reduce) {
+    .tg {
+        transition: none
+    }
+    .tg:hover {
+        transform: none
+    }
 }
 
 .tg:focus-visible {

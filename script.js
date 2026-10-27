@@ -187,7 +187,8 @@ const S = {
   diet: 'All',
   bud: 'Any',
   ps: 'COAM',
-  contactItem: null
+  contactItem: null,
+  viewingMess: null
 };
 
 const saveBookmarks = () => {
@@ -351,18 +352,17 @@ const L = {
         </div>
         <div class="sm">Rs ${m.p} per meal, ${m.v ? 'veg' : 'non-veg'}, rated ${m.r} ★ (Timing: ${m.o}:00 - ${m.c}:00)</div>
         <div style="margin-top:10px;padding-top:8px;border-top:1px dashed var(--line)">
-          <button class="btn s alt" data-a="rv" onclick="event.stopPropagation()">Reviews (${m.rv ? m.rv.length : 0})</button>
+          <button class="btn s alt" data-a="rv" onclick="event.stopPropagation();A.rv({},this)">Reviews (${m.rv ? m.rv.length : 0})</button>
         </div>
-        <div class="rev">
+        <div class="rev" style="display:none">
           ${(m.rv || []).map((x, ri) => `
-            <div class="row sp" style="margin:4px 0;padding:2px 0">
-              <p style="margin:0;font-size:13px;flex:1">${x}</p>
-              <button class="btn s alt" style="padding:1px 6px;font-size:11px;color:var(--mar);margin-left:8px" data-a="delrv" data-n="${m.n}" data-ri="${ri}" onclick="event.stopPropagation()">×</button>
+            <div style="margin:4px 0;padding:6px 8px;background:var(--bg);border-radius:4px">
+              <p style="margin:0;font-size:13px">${x}</p>
             </div>
           `).join('')}
-          <div class="row" style="margin-top:8px">
-            <input placeholder="Add a review" id="r${m.n.replace(/\s+/g, '')}" style="flex:1" onclick="event.stopPropagation()">
-            <button class="btn s" data-a="addrv" data-n="${m.n}" onclick="event.stopPropagation()">Post</button>
+          <div class="row" style="margin-top:8px;gap:6px">
+            <input placeholder="Add a review..." id="r${m.n.replace(/\s+/g, '')}" style="flex:1;padding:6px 8px;font-size:12px;border:1px solid var(--line);border-radius:4px;background:var(--bg);color:var(--ink)" onclick="event.stopPropagation()">
+            <button class="btn s" data-a="addrv" data-n="${m.n}" onclick="event.stopPropagation();A.addrv({n:'${m.n}'},this)">Post</button>
           </div>
         </div>
       </div>
@@ -1145,6 +1145,7 @@ const A = {
   pvM: d => {
     const m = D.mess.find(x => x.n == d.n);
     if (!m) return;
+    S.viewingMess = m;
     M(`
       <div class="row sp">
         <div class="row" style="gap:6px">
@@ -1156,9 +1157,19 @@ const A = {
       ${m.img ? `<div class="polaroid" style="height:140px"><img src="${m.img}" alt="${m.n}"></div>` : ''}
       <p class="sm" style="color:var(--mute)">Rs ${m.p}/meal • ${m.v ? 'Pure Veg' : 'Non-Veg'} • ${m.r} ★</p>
       <p class="sm">Timing: ${m.o}:00 - ${m.c}:00</p>
-      <div style="background:var(--rule);padding:10px 12px;border-radius:6px;font-size:13.5px">Reviews: ${(m.rv || []).length}</div>
-      <div class="row sp" style="margin-top:10px">
-        <button class="btn" data-a="rv" onclick="X()">View Reviews</button>
+      <div style="background:var(--rule);padding:10px 12px;border-radius:6px;font-size:13.5px;margin-bottom:14px">Reviews: ${(m.rv || []).length}</div>
+      <div style="max-height:200px;overflow-y:auto;margin-bottom:14px;padding-right:4px">
+        ${(m.rv || []).length ? (m.rv || []).map((x, ri) => `
+          <div style="margin:6px 0;padding:8px;background:var(--bg);border-radius:6px">
+            <p style="margin:0;font-size:13px">${x}</p>
+          </div>
+        `).join('') : '<p class="sm" style="color:var(--mute);text-align:center;padding:12px">No reviews yet</p>'}
+      </div>
+      <div class="row" style="gap:8px;margin-bottom:14px">
+        <input type="text" id="newReview" placeholder="Add your review..." style="flex:1;padding:8px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink)">
+        <button class="btn" data-a="addrv" data-n="${m.n}">Add</button>
+      </div>
+      <div class="row sp">
         <button class="btn alt" data-a="x">Close</button>
       </div>
     `);
@@ -1341,15 +1352,40 @@ const A = {
       render();
     }
   },
-  rv: (d, e) => e.closest('.card').classList.toggle('open'),
+  rv: (d, e) => {
+    const card = e?.closest('.card');
+    if (!card) return;
+    const revDiv = card.querySelector('.rev');
+    if (revDiv) {
+      revDiv.style.display = revDiv.style.display === 'none' ? 'block' : 'none';
+    }
+  },
   addrv: (d, e) => {
-    const i = e.previousElementSibling;
-    if (!i.value.trim()) return i.focus();
     const m = D.mess.find(x => x.n == d.n);
-    if (m) {
-      if (!m.rv) m.rv = [];
-      m.rv.push(i.value.trim());
-      saveData();
+    if (!m) return;
+    
+    const modalInput = $('#newReview');
+    const inlineInput = $(`#r${d.n.replace(/\s+/g, '')}`);
+    const i = modalInput || inlineInput;
+    
+    const val = i?.value.trim();
+    if (!val) {
+      i?.focus();
+      return;
+    }
+    
+    if (!m.rv) m.rv = [];
+    m.rv.push(val);
+    saveData();
+    
+    if (modalInput) {
+      A.pvM({n: m.n});
+    } else {
+      const card = e?.closest('.card');
+      const revDiv = card?.querySelector('.rev');
+      if (revDiv) {
+        revDiv.style.display = 'block';
+      }
       render();
     }
   },
@@ -1358,7 +1394,7 @@ const A = {
     if (m && m.rv) {
       m.rv.splice(+d.ri, 1);
       saveData();
-      render();
+      A.pvM({n: m.n});
     }
   },
 

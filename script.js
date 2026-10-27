@@ -186,7 +186,8 @@ const S = {
   lt: 'lost',
   diet: 'All',
   bud: 'Any',
-  ps: 'COAM'
+  ps: 'COAM',
+  contactItem: null
 };
 
 const saveBookmarks = () => {
@@ -278,8 +279,8 @@ const L = {
           <div class="sm">${new Date(e.d).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })} at ${e.v}</div>
           <div class="row sp" style="margin-top:12px;padding-top:8px;border-top:1px dashed var(--line);align-items:center">
             <div class="row" style="gap:6px">
-              <button class="btn s ${isReg ? 'alt' : ''}" style="${isReg ? 'background:var(--c);color:var(--on);font-weight:600' : ''}" data-a="reg" data-i="${i}" onclick="event.stopPropagation()">${isReg ? 'Registered ✓' : 'Register'}</button>
-              <button class="btn s alt" data-a="cal" data-i="${i}" onclick="event.stopPropagation()">Cal</button>
+              <button class="btn s ${isReg ? 'alt' : ''}" style="${isReg ? 'background:var(--c);color:var(--on);font-weight:600' : ''}" data-a="reg" data-i="${i}" onclick="event.stopPropagation();A.reg({i:'${i}'})">${isReg ? 'Registered ✓' : 'Register'}</button>
+              <button class="btn s alt" data-a="cal" data-i="${i}" onclick="event.stopPropagation();A.cal({i:'${i}'})"><svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="12" height="9" rx="1"/><path d="M5 2v3M11 2v3M2 7h12"/></svg></button>
             </div>
             <div class="row" style="gap:4px">
               <button class="btn s alt" data-a="edEv" data-i="${i}" onclick="event.stopPropagation()">Edit</button>
@@ -333,7 +334,7 @@ const L = {
         <h3>${x.t}</h3>
         <div class="sm">${x.w}, ${x.d}</div>
         <div style="margin-top:12px;padding-top:8px;border-top:1px dashed var(--line)">
-          <button class="btn s" data-a="contact" data-id="${x.id}" onclick="event.stopPropagation()">Contact ${x.k == 'lost' ? 'owner' : 'finder'}</button>
+          <button class="btn s" data-a="contact" data-id="${x.id}" onclick="event.stopPropagation();A.contact({id:'${x.id}'})"><svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px"><path d="M3 8h10M8 3v10"/></svg>Contact ${x.k == 'lost' ? 'owner' : 'finder'}</button>
         </div>
       </div>
     `).join('')}</div>` : `<p class="empty">Nothing reported. Post what you found or lost.</p>`;
@@ -1093,11 +1094,11 @@ const A = {
       </div>
       ${e.img ? `<div class="polaroid" style="height:140px"><img src="${e.img}" alt="${e.t}"></div>` : ''}
       <h2 class="d" style="margin-top:6px">${e.t}</h2>
-      <p class="sm">${new Date(e.d).toLocaleDateString('en-IN', { weekday:'long', day:'numeric', month:'short', year:'numeric' })} • ${e.v}</p>
+      <p class="sm">${new Date(e.d).toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'short', year: 'numeric' })} • ${e.v}</p>
       <div style="background:var(--rule);padding:10px 12px;border-radius:6px;font-size:13.5px">Campus event • Register to get updates</div>
       <div class="row sp" style="margin-top:10px">
-        <button class="btn" data-a="reg" data-i="${d.i}" onclick="X()">Register</button>
-        <button class="btn alt" data-a="cal" data-i="${d.i}">Add to Calendar</button>
+        <button class="btn" data-a="reg" data-i="${d.i}">Register</button>
+        <button class="btn alt" data-a="cal" data-i="${d.i}"><svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="12" height="9" rx="1"/><path d="M5 2v3M11 2v3M2 7h12"/></svg></button>
       </div>
     `);
   },
@@ -1112,7 +1113,7 @@ const A = {
       <p class="sm" style="color:var(--mute)">${j.role}</p>
       <div class="row" style="gap:6px;margin-top:8px">
         <span class="tag" style="--c:var(--jobs)">${j.st}</span>
-        <span class="tag q">Apply by ${new Date(j.dl).toLocaleDateString('en-IN', { day:'numeric', month:'short' })}</span>
+        <span class="tag q">Apply by ${new Date(j.dl).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}</span>
       </div>
       <div style="background:var(--rule);padding:10px 12px;border-radius:6px;font-size:13.5px;margin-top:10px">Track status in Jobs tab</div>
       <div class="row sp" style="margin-top:10px">
@@ -1126,7 +1127,7 @@ const A = {
     if (!x) return;
     M(`
       <div class="row sp">
-        <span class="tag" style="--c:${x.k=='lost'?'var(--mar)':'#10b981'}">${x.k.toUpperCase()}</span>
+        <span class="tag" style="--c:${x.k == 'lost' ? 'var(--mar)' : '#10b981'}">${x.k.toUpperCase()}</span>
         <button class="ib" data-a="x" aria-label="Close"><svg viewBox="0 0 20 20"><path d="M5 5l10 10M15 5L5 15"/></svg></button>
       </div>
       <div class="polaroid" style="height:140px">
@@ -1136,7 +1137,7 @@ const A = {
       <p class="sm" style="color:var(--mute)">${x.w} • ${x.d}</p>
       <div style="background:var(--rule);padding:10px 12px;border-radius:6px;font-size:13.5px">Reach out if you have info</div>
       <div class="row sp" style="margin-top:10px">
-        <button class="btn" data-a="contact" data-id="${x.id}">Contact ${x.k=='lost'?'owner':'finder'}</button>
+        <button class="btn" data-a="contact" data-id="${x.id}" onclick="A.contact({id:'${x.id}'})"><svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px"><path d="M3 8h10M8 3v10"/></svg>Contact ${x.k == 'lost' ? 'owner' : 'finder'}</button>
         <button class="btn alt" data-a="x">Close</button>
       </div>
     `);
@@ -1148,14 +1149,14 @@ const A = {
       <div class="row sp">
         <div class="row" style="gap:6px">
           <h2 class="d" style="margin:0">${m.n}</h2>
-          <span class="tag" style="--c:${open(m)?'var(--lost)':'var(--rule)'}">${open(m)?'Open now':'Closed'}</span>
+          <span class="tag" style="--c:${open(m) ? 'var(--lost)' : 'var(--rule)'}">${open(m) ? 'Open now' : 'Closed'}</span>
         </div>
         <button class="ib" data-a="x" aria-label="Close"><svg viewBox="0 0 20 20"><path d="M5 5l10 10M15 5L5 15"/></svg></button>
       </div>
       ${m.img ? `<div class="polaroid" style="height:140px"><img src="${m.img}" alt="${m.n}"></div>` : ''}
-      <p class="sm" style="color:var(--mute)">Rs ${m.p}/meal • ${m.v?'Pure Veg':'Non-Veg'} • ${m.r} ★</p>
+      <p class="sm" style="color:var(--mute)">Rs ${m.p}/meal • ${m.v ? 'Pure Veg' : 'Non-Veg'} • ${m.r} ★</p>
       <p class="sm">Timing: ${m.o}:00 - ${m.c}:00</p>
-      <div style="background:var(--rule);padding:10px 12px;border-radius:6px;font-size:13.5px">Reviews: ${(m.rv||[]).length}</div>
+      <div style="background:var(--rule);padding:10px 12px;border-radius:6px;font-size:13.5px">Reviews: ${(m.rv || []).length}</div>
       <div class="row sp" style="margin-top:10px">
         <button class="btn" data-a="rv" onclick="X()">View Reviews</button>
         <button class="btn alt" data-a="x">Close</button>
@@ -1241,17 +1242,33 @@ const A = {
   },
   contact: d => {
     const x = D.lf.find(i => i.id == d.id);
+    S.contactItem = x;
     M(`
-      <h2 class="d">Contact about: ${x.t}</h2>
-      <textarea id="f1" placeholder="Describe a specific detail or identifier only the true owner would know"></textarea>
+      <div class="row sp">
+        <span class="tag" style="--c:${x.k == 'lost' ? 'var(--mar)' : '#10b981'}">${x.k.toUpperCase()}</span>
+      </div>
+      <h2 class="d" style="margin-top:8px">Contact ${x.k == 'lost' ? 'owner' : 'finder'}</h2>
+      <p class="sm" style="color:var(--mute);margin-bottom:12px">About: <b>${x.t}</b><br>Found at: ${x.w} • ${x.d}</p>
+      <div style="background:var(--rule);padding:12px;border-radius:6px;margin-bottom:14px">
+        <div class="sm" style="font-weight:500;margin-bottom:6px">Your message:</div>
+        <textarea id="f1" style="width:100%;min-height:80px;padding:10px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);font-family:inherit;font-size:14px;resize:vertical" placeholder="Describe a specific detail or identifier only the true owner would know (e.g., serial number, unique markings, case color, initials on item...)"></textarea>
+      </div>
       <div class="row sp"><button class="btn" data-a="snd">Send message</button><button class="btn alt" data-a="x">Cancel</button></div>
     `);
   },
-  snd: () => M(`
-    <h2 class="d">Message Sent</h2>
-    <p class="sm">The finder/owner will reply directly to your Pathshala messages.</p>
-    <button class="btn" data-a="x">Done</button>
-  `),
+  snd: () => {
+    const x = S.contactItem;
+    M(`
+      <div style="text-align:center;padding:20px 0">
+        <div style="width:60px;height:60px;margin:0 auto 16px;border-radius:50%;background:#10b981;display:flex;align-items:center;justify-content:center">
+          <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>
+        </div>
+        <h2 class="d">Message Sent!</h2>
+        <p class="sm" style="color:var(--mute);margin-bottom:16px">The ${x?.k == 'lost' ? 'owner' : 'finder'} will receive your message and can reply directly through Pathshala.</p>
+        <button class="btn" data-a="x">Done</button>
+      </div>
+    `);
+  },
   x: X,
 
   /* Mess and Cafes */

@@ -351,10 +351,10 @@ const L = {
           <span class="tag" style="--c:${open(m) ? 'var(--lost)' : 'var(--rule)'}">${open(m) ? 'Open now' : 'Closed'}</span>
         </div>
         <div class="sm">Rs ${m.p} per meal, ${m.v ? 'veg' : 'non-veg'}, rated ${m.r} ★ (Timing: ${m.o}:00 - ${m.c}:00)</div>
-        <div style="margin-top:10px;padding-top:8px;border-top:1px dashed var(--line)">
+        <div style="margin-top:10px;padding-top:8px;border-top:1px dashed var(--line">
           <button class="btn s alt" data-a="rv" onclick="event.stopPropagation();A.rv({},this)">Reviews (${m.rv ? m.rv.length : 0})</button>
         </div>
-        <div class="rev" style="display:none">
+        <div class="rev hidden">
           ${(m.rv || []).map((x, ri) => `
             <div style="margin:4px 0;padding:6px 8px;background:var(--bg);border-radius:4px">
               <p style="margin:0;font-size:13px">${x}</p>
@@ -1357,7 +1357,7 @@ const A = {
     if (!card) return;
     const revDiv = card.querySelector('.rev');
     if (revDiv) {
-      revDiv.style.display = revDiv.style.display === 'none' ? 'block' : 'none';
+      revDiv.classList.toggle('hidden');
     }
   },
   addrv: (d, e) => {
@@ -1384,7 +1384,7 @@ const A = {
       const card = e?.closest('.card');
       const revDiv = card?.querySelector('.rev');
       if (revDiv) {
-        revDiv.style.display = 'block';
+        revDiv.classList.remove('hidden');
       }
       render();
     }

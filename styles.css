@@ -729,7 +729,11 @@ th {
     padding-top: 8px
 }
 
-.open .rev {
+.rev.hidden {
+    display: none
+}
+
+.rev:not(.hidden) {
     display: block
 }
 

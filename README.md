@@ -48,6 +48,9 @@ The vision is simple: **less time searching, more time learning.**
 
 <div align="center">
 
+### Certificate of Achivement 2nd Place in SASC PixelRush
+<img src="screenshots/Cert.jpg" alt="Certificate of Achivement in SASC PixelRush" width="800"/>
+
 ### Notes Section
 <img src="screenshots/notes.png" alt="Notes Section" width="800"/>
 

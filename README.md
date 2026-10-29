@@ -38,11 +38,10 @@ The vision is simple: **less time searching, more time learning.**
 
 ## 🛠️ Tech Stack
 
-- **Frontend:** Web technologies
+- **Frontend:** HTML , CSS , JS
 - **Deployment:** Vercel
 - **Version Control:** Git and GitHub
 
-*Update this section with the exact frameworks and libraries used in the project.*
 
 ## 📸 Screenshots
 
